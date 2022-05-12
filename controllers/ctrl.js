@@ -37,11 +37,27 @@ exports.signin = (req, res, next) => {
 }
 
 exports.getStat = (req, res, next) => {
-    Stat.find()
+    User.find()
         .then(data => {
             res.status(200).json(data)
         })
         .catch(error => {
             res.status(400).json(error)
         })
+}
+
+exports.score = (req, res, next) => {
+    if(req.body.facile){
+        User.updateOne({token: req.body.token}, {facile: req.body.facile})
+            .then(() => res.status(200).json({message: 'score sauvegarder'}))
+            .catch( error => {res.status(500).json({ error })})
+    }else if(req.body.moyen){
+        User.updateOne({token: req.body.token}, {moyen: req.body.facile})
+            .then(() => res.status(200).json({message: 'score sauvegarder'}))
+            .catch( error => {res.status(500).json({ error })})
+    }else if(req.body.difficile){
+        User.updateOne({token: req.body.token}, {difficile: req.body.facile})
+            .then(() => res.status(200).json({message: 'score sauvegarder'}))
+            .catch( error => {res.status(500).json({ error })})
+    }
 }
